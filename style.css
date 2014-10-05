@@ -5,43 +5,45 @@ body {
 .container {
 	width: 900px;
 	margin: auto;
-	text-align: center;
 }
-canvas {
+.main, .side {
+	display: inline-block;
+	float: left;
+}
+.main {
+	width: 620px;
+	margin-right: 30px;
+}
+.side {
+	width: 250px;
+}
+#img {
 	border: 10px solid #eee;
 }
 h1 {
 	background: #eee;
-	padding: 5px;
+	padding: 10px;
 	text-align: center;
 }
 h3 {
 	border-bottom: 1px solid #888;
 }
-.main {
-	width: 650px;
-	display: inline-block;
-	float: left;
+button:disabled {
+	opacity: 0.5;
+	cursor: default;
 }
-.side {
-	width: 250px;
-	display: inline-block;
-	float: left;
-	text-align: left;
-}
-
-input:disabled {
-	background: #ddd;
+.btn:disabled:hover {
+	background: #0F53DD;
 }
 .btn, input[type=button] {
 	display: inline-block;
+	background: #0F53DD;
+	padding: 7px 8px;
+	margin: 4px 0;
+	border: 0;
 	color: #fff;
 	text-decoration: none;
 	text-align: center;
-	padding: 7px 8px;
-	margin: 4px 0;
-	background: #0F53DD;
-	border: 0;
 	cursor: pointer;
 }
 .btn:hover {
@@ -49,8 +51,8 @@ input:disabled {
 }
 #btn-download {
 	display: block;
-	padding: 10px;
 	background: forestgreen;
+	padding: 10px;
 }
 #btn-download:hover {
 	background: rgb(71, 192, 71);
