@@ -26,13 +26,17 @@
 		If you wish to try a different one, refresh the page.
 		<br><br>
 
-		<h3>2.) Move Image</h3>
-		Move the image if needed!<br>
-		<button class="btn" id="up" disabled><i class="fa fa-arrow-up fa-fw"></i></button>
-		<button class="btn" id="down" disabled><i class="fa fa-arrow-down fa-fw"></i></button>
-		<button class="btn" id="left" disabled><i class="fa fa-arrow-left fa-fw"></i></button>
-		<button class="btn" id="right" disabled><i class="fa fa-arrow-right fa-fw"></i></button>
-		<br><br>
+		<h3>2.) Edit Image</h3>
+		Move: 
+		<button class="btn edit" id="up" disabled><i class="fa fa-arrow-up fa-fw"></i></button>
+		<button class="btn edit" id="down" disabled><i class="fa fa-arrow-down fa-fw"></i></button>
+		<button class="btn edit" id="left" disabled><i class="fa fa-arrow-left fa-fw"></i></button>
+		<button class="btn edit" id="right" disabled><i class="fa fa-arrow-right fa-fw"></i></button>
+		<br>
+		Rotate:
+		<button class="btn edit" id="rot-l" disabled><i class="fa fa-rotate-left fa-fw"></i></button>
+		<button class="btn edit" id="rot-r" disabled><i class="fa fa-rotate-right fa-fw"></i></button>
+
 
 		<h3>3.) Done?</h3>
 		<a href="#" class="btn" id="btn-download">Download!</a>
@@ -66,9 +70,10 @@ frame.onload = function(){
 var img;
 var imgX = 85;
 var imgY = 163;
+var imgRot = 0;
 var w = 430;
 function handleImage(e){
-	$('#up, #down, #left, #right, #fin').removeAttr('disabled');
+	$('.edit').removeAttr('disabled');
 	canvas.width = 600;
     var reader = new FileReader();
     reader.onload = function(event){
@@ -85,32 +90,57 @@ function handleImage(e){
 
 $('#up').on('click',function() {
 	canvas.width = 600;
-	imgY -=10;
-    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
-	ctx.drawImage(frame,0,0,600,600);
-	done = 0;
+	if (imgRot==0) imgY -= 10;
+	if (imgRot==90 || imgRot==-270) imgX -= 10;
+	if (imgRot==180 || imgRot==-180) imgY += 10;
+	if (imgRot==270 || imgRot==-90) imgX += 10;
+	redraw();
 });
 $('#down').on('click',function() {
 	canvas.width = 600;
-	imgY +=10;
-    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
-	ctx.drawImage(frame,0,0,600,600); 
-	done = 0;
+	if (imgRot==0) imgY += 10;
+	if (imgRot==90 || imgRot==-270) imgX += 10;
+	if (imgRot==180 || imgRot==-180) imgY -= 10;
+	if (imgRot==270 || imgRot==-90) imgX -= 10;
+	redraw();
 });
 $('#left').on('click',function() {
 	canvas.width = 600;
-	imgX -=10;
-    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
-	ctx.drawImage(frame,0,0,600,600); 
-	done = 0;
+	if (imgRot==0) imgX -= 10;
+	if (imgRot==90 || imgRot==-270) imgY += 10;
+	if (imgRot==180 || imgRot==-180) imgX += 10;
+	if (imgRot==270 || imgRot==-90) imgY -= 10;
+	redraw();
 });
 $('#right').on('click',function() {
 	canvas.width = 600;
-	imgX +=10;
-    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
+	if (imgRot==0) imgX += 10;
+	if (imgRot==90 || imgRot==-270) imgY -= 10;
+	if (imgRot==180 || imgRot==-180) imgX -= 10;
+	if (imgRot==270 || imgRot==-90) imgY += 10;
+	redraw();
+});
+$('#rot-r').on('click',function() {
+	canvas.width = 600;
+	imgRot = imgRot==270 ? 0 : imgRot+=90;
+	redraw();
+});
+$('#rot-l').on('click',function() {
+	canvas.width = 600;
+	imgRot = imgRot==-270 ? 0 : imgRot-=90;
+	redraw();
+});
+
+function redraw() {
+	ctx.save();
+	ctx.translate(300,300);
+	ctx.rotate(imgRot*Math.PI/180);
+    ctx.drawImage(img,-300+imgX,-300+imgY,w,img.height*w/img.width);
+    ctx.restore();
 	ctx.drawImage(frame,0,0,600,600); 
 	done = 0;
-});
+
+}
 
 done = 0;
 var button = document.getElementById('btn-download');
