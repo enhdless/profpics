@@ -2,10 +2,12 @@
 <html>
 
 <head>
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/camanjs/4.0.0/caman.full.min.js"></script>
 	 <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.2.min.js"></script>
+	 <title>2017 Profile Pictures!</title>
 </head>
 
 <body>
@@ -13,29 +15,32 @@
 	<h1>2017 Homecoming Profile Pictures!</h1>
 <div class="container">
 	<div class="main">
-		<div>
-			<b>Upload a picture of yourself!</b>
-			
-			<input type="file" id="imageLoader" name="imageLoader" >
-		<br><br>
-			
-		</div>
-
 		<canvas id="img" width=600 height=600></canvas>
 	</div>
 
 	<div class="side">
-		<h3>Notes</h3>
-		<ul>
-			<li>To try a different picture, refresh the page.</li>
-			<li>Currently, the uploaded picture can't be moved or resized.</li>
-		</ul>
-		<!-- <h3>Move Image</h3>
-		<input type="button" value="Move up" id="up" disabled>
-		<input type="button" value="Move down" id="down" disabled>
-		<br><br> -->
-		<h3>Done?</h3>
+		<h3>1.) Upload</h3>
+		<b>Upload a picture of yourself!</b>
+		<input type="file" id="imageLoader" name="imageLoader" >
+		<br><br>
+		If you wish to try a different one, refresh the page.
+		<br><br>
+
+		<h3>2.) Move Image</h3>
+		Move the image if needed!<br>
+		<button class="btn" id="up" disabled><i class="fa fa-arrow-up fa-fw"></i></button>
+		<button class="btn" id="down" disabled><i class="fa fa-arrow-down fa-fw"></i></button>
+		<button class="btn" id="left" disabled><i class="fa fa-arrow-left fa-fw"></i></button>
+		<button class="btn" id="right" disabled><i class="fa fa-arrow-right fa-fw"></i></button>
+		<br><br>
+
+		<h3>3.) Done?</h3>
 		<a href="#" class="btn" id="btn-download">Download!</a>
+		<br><br>
+
+		<h3>Something weird happen?</h3>
+		<a href="/" class='btn'>Refresh the page!</a>
+
 	</div>
 
 
@@ -63,18 +68,14 @@ var imgX = 85;
 var imgY = 163;
 var w = 430;
 function handleImage(e){
-	$('#up, #down').removeAttr('disabled');
+	$('#up, #down, #left, #right, #fin').removeAttr('disabled');
 	canvas.width = 600;
     var reader = new FileReader();
     reader.onload = function(event){
         img = new Image();
         img.onload = function(){
-            ctx.drawImage(img,85,163,w,img.height*w/img.width);
+            ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
 			ctx.drawImage(frame,0,0,600,600); 
-		    Caman("#img", function () {
-			  this.saturation(0).render();
-			  this.sepia(50).render();
-			});   
         }
         img.src = event.target.result;
     }
@@ -82,28 +83,64 @@ function handleImage(e){
 }
 
 
-/*$('#up').on('click',function() {
+$('#up').on('click',function() {
 	canvas.width = 600;
 	imgY -=10;
-    ctx.drawImage(img,85,imgY,w,img.height*w/img.width);
+    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
 	ctx.drawImage(frame,0,0,600,600);
+	done = 0;
 });
 $('#down').on('click',function() {
 	canvas.width = 600;
 	imgY +=10;
-    ctx.drawImage(img,85,imgY,w,img.height*w/img.width);
-		    Caman("#img", function () {
-			  this.saturation(0).render();
-			  this.sepia(50).render();
-			});  
+    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
 	ctx.drawImage(frame,0,0,600,600); 
-});*/
+	done = 0;
+});
+$('#left').on('click',function() {
+	canvas.width = 600;
+	imgX -=10;
+    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
+	ctx.drawImage(frame,0,0,600,600); 
+	done = 0;
+});
+$('#right').on('click',function() {
+	canvas.width = 600;
+	imgX +=10;
+    ctx.drawImage(img,imgX,imgY,w,img.height*w/img.width);
+	ctx.drawImage(frame,0,0,600,600); 
+	done = 0;
+});
 
+done = 0;
 var button = document.getElementById('btn-download');
 button.addEventListener('click', function (e) {
-    var dataURL = canvas.toDataURL('image/png');
-    button.href = dataURL;
-    button.download = "profile.png";
+	if(!done) {
+		Caman("#img", function () {
+			this.saturation(0);
+			this.sepia(50).render();
+		});
+	}
+	if (done==2) {
+		console.log('asdf');
+		var dataURL = canvas.toDataURL('image/png');
+	    button.href = dataURL;
+	    button.download = "profile.png";
+	}
 });
+
+
+Caman.Event.listen("processComplete", function (job) {
+	console.log("Finished:", job.name);
+	done++;
+	if (done==2) {
+		setTimeout(function() {
+			button.click();
+		},500);	
+	}
+});
+
+
+
 
 </script>
