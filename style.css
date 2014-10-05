@@ -39,6 +39,7 @@ input:disabled {
 	text-decoration: none;
 	text-align: center;
 	padding: 7px 8px;
+	margin: 4px 0;
 	background: #0F53DD;
 	border: 0;
 	cursor: pointer;
