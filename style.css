@@ -1,22 +1,39 @@
 body {
 	font: 12pt Arial;
+	margin: 0;
 }
 .container {
-	width: 800px;
+	width: 900px;
 	margin: auto;
 	text-align: center;
 }
 canvas {
 	border: 10px solid #eee;
 }
+h1 {
+	background: #eee;
+	padding: 5px;
+	text-align: center;
+}
+.main {
+	width: 650px;
+	display: inline-block;
+	float: left;
+}
+.side {
+	width: 250px;
+	display: inline-block;
+	float: left;
+	text-align: left;
+}
 
 #btn-download {
-	display: inline-block;
+	display: block;
 	color: #fff;
 	text-decoration: none;
 	background: forestgreen;
-	margin: 3px;
-	padding: 5px;
+	padding: 10px;
+	text-align: center;
 }
 #btn-download:hover {
 	background: rgb(71, 192, 71);

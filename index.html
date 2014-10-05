@@ -10,19 +10,28 @@
 
 <body>
 
-<div class="container">
 	<h1>2017 Homecoming Profile Pictures!</h1>
+<div class="container">
+	<div class="main">
+		<div>
+			<b>Upload a picture of yourself!</b>
+			
+			<input type="file" id="imageLoader" name="imageLoader" >
+		<br><br>
+			
+		</div>
 
-	<div>
-		<b>Upload a picture of yourself!</b>
-		
-		<input type="file" id="imageLoader" name="imageLoader" >
-	<br><br>
-	<a href="#" class="button" id="btn-download">Done? Download!</a><br><br>
-		
+		<canvas id="img" width=600 height=600></canvas>
 	</div>
-	<canvas id="img" width=600 height=600></canvas>
-	
+
+	<div class="side">
+		<h3>Notes</h3>
+		<ul>
+			<li>To try a different picture, refresh the page.</li>
+			<li>Currently, the uploaded picture can't be moved or resized.</li>
+		</ul><br><br>
+		<a href="#" class="button" id="btn-download">Done? Download!</a>
+	</div>
 
 
 </div>
@@ -45,14 +54,13 @@ frame.onload = function(){
 }
 
 function handleImage(e){
+	canvas.width = 600;
     var reader = new FileReader();
     reader.onload = function(event){
         var img = new Image();
         img.onload = function(){
             var w = 430;
             ctx.drawImage(img,85,163,w,img.height*w/img.width);
-           
-
 			ctx.drawImage(frame,0,0,600,600); 
 		    Caman("#img", function () {
 			  this.saturation(0).render();
