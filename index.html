@@ -1,0 +1,75 @@
+<!doctype>
+<html>
+
+<head>
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/camanjs/4.0.0/caman.full.min.js"></script>
+	 <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v5.0.2.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+	<h1>2017 Homecoming Profile Pictures!</h1>
+
+	<div>
+		<b>Upload a picture of yourself!</b>
+		
+		<input type="file" id="imageLoader" name="imageLoader" >
+	<br><br>
+	<a href="#" class="button" id="btn-download">Done? Download!</a><br><br>
+		
+	</div>
+	<canvas id="img" width=600 height=600></canvas>
+	
+
+
+</div>
+
+
+</body>
+
+</html>
+
+<script>
+var imageLoader = document.getElementById('imageLoader');
+    imageLoader.addEventListener('change', handleImage, false);
+var canvas = document.getElementById('img');
+var ctx = canvas.getContext('2d');
+
+var frame = new Image();
+frame.src = 'frame.png';
+frame.onload = function(){
+	ctx.drawImage(frame,0,0,600,600);
+}
+
+function handleImage(e){
+    var reader = new FileReader();
+    reader.onload = function(event){
+        var img = new Image();
+        img.onload = function(){
+            var w = 430;
+            ctx.drawImage(img,85,163,w,img.height*w/img.width);
+           
+
+			ctx.drawImage(frame,0,0,600,600); 
+		    Caman("#img", function () {
+			  this.saturation(0).render();
+			  this.sepia(50).render();
+			});   
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]); 
+}
+
+
+var button = document.getElementById('btn-download');
+button.addEventListener('click', function (e) {
+    var dataURL = canvas.toDataURL('image/png');
+    button.href = dataURL;
+    button.download = "profile.png";
+});
+
+</script>
