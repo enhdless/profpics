@@ -1,5 +1,5 @@
 body {
-	font: 12pt Arial;
+	font: 1em Arial;
 	margin: 0;
 }
 .container {
@@ -15,6 +15,9 @@ h1 {
 	padding: 5px;
 	text-align: center;
 }
+h3 {
+	border-bottom: 1px solid #888;
+}
 .main {
 	width: 650px;
 	display: inline-block;
@@ -27,13 +30,27 @@ h1 {
 	text-align: left;
 }
 
-#btn-download {
-	display: block;
+input:disabled {
+	background: #ddd;
+}
+.btn, input[type=button] {
+	display: inline-block;
 	color: #fff;
 	text-decoration: none;
-	background: forestgreen;
-	padding: 10px;
 	text-align: center;
+	padding: 7px 8px;
+	margin: 4px 0;
+	background: #0F53DD;
+	border: 0;
+	cursor: pointer;
+}
+.btn:hover {
+	background: #2d72ff;
+}
+#btn-download {
+	display: block;
+	padding: 10px;
+	background: forestgreen;
 }
 #btn-download:hover {
 	background: rgb(71, 192, 71);
