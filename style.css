@@ -1,0 +1,23 @@
+body {
+	font: 12pt Arial;
+}
+.container {
+	width: 800px;
+	margin: auto;
+	text-align: center;
+}
+canvas {
+	border: 10px solid #eee;
+}
+
+#btn-download {
+	display: inline-block;
+	color: #fff;
+	text-decoration: none;
+	background: forestgreen;
+	margin: 3px;
+	padding: 5px;
+}
+#btn-download:hover {
+	background: rgb(71, 192, 71);
+}
