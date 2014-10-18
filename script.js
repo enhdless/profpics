@@ -29,48 +29,47 @@ function handleImage(e){
     reader.readAsDataURL(e.target.files[0]); 
 }
 
-
-$('#up').on('click',function() {
+document.getElementById('up').addEventListener('click', function() {
 	if (imgRot==0) imgY -= 10;
 	if (imgRot==90 || imgRot==-270) imgX -= 10;
 	if (imgRot==180 || imgRot==-180) imgY += 10;
 	if (imgRot==270 || imgRot==-90) imgX += 10;
 	redraw();
 });
-$('#down').on('click',function() {
+document.getElementById('down').addEventListener('click' ,function() {
 	if (imgRot==0) imgY += 10;
 	if (imgRot==90 || imgRot==-270) imgX += 10;
 	if (imgRot==180 || imgRot==-180) imgY -= 10;
 	if (imgRot==270 || imgRot==-90) imgX -= 10;
 	redraw();
 });
-$('#left').on('click',function() {
+document.getElementById('left').addEventListener('click' ,function() {
 	if (imgRot==0) imgX -= 10;
 	if (imgRot==90 || imgRot==-270) imgY += 10;
 	if (imgRot==180 || imgRot==-180) imgX += 10;
 	if (imgRot==270 || imgRot==-90) imgY -= 10;
 	redraw();
 });
-$('#right').on('click',function() {
+document.getElementById('right').addEventListener('click' ,function() {
 	if (imgRot==0) imgX += 10;
 	if (imgRot==90 || imgRot==-270) imgY -= 10;
 	if (imgRot==180 || imgRot==-180) imgX -= 10;
 	if (imgRot==270 || imgRot==-90) imgY += 10;
 	redraw();
 });
-$('#rot-r').on('click',function() {
+document.getElementById('rot-r').addEventListener('click' ,function() {
 	imgRot = imgRot==270 ? 0 : imgRot+=90;
 	redraw();
 });
-$('#rot-l').on('click',function() {
+document.getElementById('rot-l').addEventListener('click' ,function() {
 	imgRot = imgRot==-270 ? 0 : imgRot-=90;
 	redraw();
 });
-$('#bigger').on('click',function() {
+document.getElementById('bigger').addEventListener('click' ,function() {
 	r += 10;
 	redraw();
 });
-$('#smaller').on('click',function() {
+document.getElementById('smaller').addEventListener('click' ,function() {
 	r -= 10;
 	redraw();
 });
