@@ -1,5 +1,4 @@
 var canvas = document.getElementById('img');
->>>>>>> gh-pages
 var ctx = canvas.getContext('2d');
 
 var frame = new Image();
@@ -8,7 +7,6 @@ frame.onload = function(){
 	ctx.drawImage(frame,0,0,600,600);
 }
 
->>>>>>> gh-pages
 var img;
 var imgX = 85;
 var imgY = 163;
@@ -22,7 +20,6 @@ function handleImage(e) {
 	for (var i=0; i<editBtns.length; i++) {
 		editBtns[i].disabled = false;
 	}
->>>>>>> gh-pages
 	canvas.width = 600;
     var reader = new FileReader();
     reader.onload = function(event){
@@ -37,7 +34,6 @@ function handleImage(e) {
 }
 
 document.getElementById('up').addEventListener('click', function() {
->>>>>>> gh-pages
 	if (imgRot==0) imgY -= 10;
 	if (imgRot==90 || imgRot==-270) imgX -= 10;
 	if (imgRot==180 || imgRot==-180) imgY += 10;
@@ -45,7 +41,6 @@ document.getElementById('up').addEventListener('click', function() {
 	redraw();
 });
 document.getElementById('down').addEventListener('click', function() {
->>>>>>> gh-pages
 	if (imgRot==0) imgY += 10;
 	if (imgRot==90 || imgRot==-270) imgX += 10;
 	if (imgRot==180 || imgRot==-180) imgY -= 10;
@@ -53,7 +48,6 @@ document.getElementById('down').addEventListener('click', function() {
 	redraw();
 });
 document.getElementById('left').addEventListener('click', function() {
->>>>>>> gh-pages
 	if (imgRot==0) imgX -= 10;
 	if (imgRot==90 || imgRot==-270) imgY += 10;
 	if (imgRot==180 || imgRot==-180) imgX += 10;
@@ -61,7 +55,6 @@ document.getElementById('left').addEventListener('click', function() {
 	redraw();
 });
 document.getElementById('right').addEventListener('click', function() {
->>>>>>> gh-pages
 	if (imgRot==0) imgX += 10;
 	if (imgRot==90 || imgRot==-270) imgY -= 10;
 	if (imgRot==180 || imgRot==-180) imgX -= 10;
@@ -94,7 +87,6 @@ function redraw() {
     ctx.drawImage(img, -300+imgX, -300+imgY, r, img.height*r/img.width);
     ctx.restore();
 	ctx.drawImage(frame, 0, 0, 600, 600); 
->>>>>>> gh-pages
 	done = 0;
 }
 
