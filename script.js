@@ -74,7 +74,6 @@ document.getElementById('bigger').addEventListener('click', function() {
 	redraw();
 });
 document.getElementById('smaller').addEventListener('click', function() {
->>>>>>> gh-pages
 	r -= 10;
 	redraw();
 });
