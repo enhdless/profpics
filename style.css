@@ -1,9 +1,9 @@
 body {
-	font: 1em Arial;
+	font: 0.9em 'Roboto', Arial;
 	margin: 0;
 }
 .container {
-	width: 900px;
+	width: 940px;
 	margin: auto;
 }
 .main, .side {
@@ -11,14 +11,11 @@ body {
 	float: left;
 }
 .main {
-	width: 620px;
+	width: 660px;
 	margin-right: 30px;
 }
 .side {
 	width: 250px;
-}
-#img {
-	border: 10px solid #eee;
 }
 h1 {
 	background: #eee;
@@ -35,7 +32,7 @@ button:disabled {
 .btn:disabled:hover {
 	background: #0F53DD;
 }
-.btn, input[type=button] {
+.btn, input[type="button"] {
 	display: inline-block;
 	background: #0F53DD;
 	padding: 7px 8px;

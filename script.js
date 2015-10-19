@@ -1,115 +1,151 @@
-var canvas = document.getElementById('img');
-var ctx = canvas.getContext('2d');
+var SIDE_LENGTH = 650;
 
-var frame = new Image();
-frame.src = 'hc2014.png';
-frame.onload = function(){
-	ctx.drawImage(frame,0,0,600,600);
-}
+var canvasNode = document.getElementById('canvas');
+canvasNode.width = SIDE_LENGTH;
+canvasNode.height = SIDE_LENGTH;
+canvasNode.addEventListener('mousedown', startDrag);
+canvasNode.addEventListener('mousemove', dragImage);
+canvasNode.addEventListener('mouseup', endDrag);
 
-var img;
-var imgX = 85;
-var imgY = 163;
-var imgRot = 0;
-var r = 430;
-var imageLoader = document.getElementById('imageLoader');
-imageLoader.addEventListener('change', handleImage, false);
+var createBtn = document.getElementById('btn-download');
+createBtn.addEventListener('click', generate);
+document.getElementById('imageLoader').addEventListener('change', handleImages, false);
 
-function handleImage(e) {
-	var editBtns = document.getElementsByClassName('edit');
-	for (var i=0; i<editBtns.length; i++) {
-		editBtns[i].disabled = false;
-	}
-	canvas.width = 600;
-    var reader = new FileReader();
-    reader.onload = function(event){
-        img = new Image();
-        img.onload = function(){
-            ctx.drawImage(img, imgX, imgY, r, img.height*r/img.width);
-			ctx.drawImage(frame, 0, 0, 600, 600); 
+document.getElementById('scale').addEventListener('mousemove', scale);
+document.getElementById('rot-r').addEventListener('click', rotateClockwise);
+document.getElementById('rot-l').addEventListener('click', rotateCounterClockwise);
+
+var canvasPic;
+
+var bg = new Image();
+bg.setAttribute('crossOrigin', 'anonymous');
+bg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
+var overlay = new Image();
+overlay.setAttribute('crossOrigin', 'anonymous');
+overlay.onload = init;
+overlay.src = 'DisneyFrame.png';    
+
+function init() {
+    canvasPic = {
+        node: canvasNode,
+        context: canvasNode.getContext('2d'),
+        img: bg,
+        imgX: 0,
+        imgY: 0,
+        imgScl: 1.0,
+        width: function() {
+            return SIDE_LENGTH*this.imgScl;
+        },
+        height: function() {
+            return (this.img.height/this.img.width)*SIDE_LENGTH*this.imgScl;
+        },
+        imgRot: 0,
+        draw: function() {
+            this.context.clearRect(0, 0, SIDE_LENGTH, SIDE_LENGTH);
+            this.context.drawImage(bg, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
+            this.context.save();
+            this.context.translate(SIDE_LENGTH/2, SIDE_LENGTH/2);
+            this.context.rotate(this.imgRot*Math.PI/180);
+            this.context.drawImage(this.img, -SIDE_LENGTH/2+this.imgX, -SIDE_LENGTH/2+this.imgY, this.width(), this.height());
+            this.context.restore();
+            this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
+        },
+        move: function(deltaX, deltaY) {
+            if (this.imgRot==0) {
+                this.imgX += deltaX;
+                this.imgY += deltaY;
+            }
+            if (this.imgRot==90 || this.imgRot==-270) {
+                this.imgX += deltaY;
+                this.imgY -= deltaX;
+            }
+            if (this.imgRot==180 || this.imgRot==-180) {
+                this.imgX -= deltaX;
+                this.imgY -= deltaY;
+            }
+            if (this.imgRot==270 || this.imgRot==-90) {
+                this.imgX -= deltaY;
+                this.imgY += deltaX;
+            }
         }
-        img.src = event.target.result;
+    };
+}
+
+function generate() {
+	createBtn.href = canvasPic.node.toDataURL('image/png');
+	createBtn.download = "profile.png";
+}
+
+function handleImages(e) {
+    for (var i=0; i<e.target.files.length; i++) {
+        var reader = new FileReader();
+        reader.onload = (function() {
+            return function(e) {
+                var img = new Image();
+                img.setAttribute('crossOrigin', 'anonymous');
+                img.onload = (function() {
+                    return function() {
+                        canvasPic.img = this;
+                        canvasPic.draw();
+                    }
+                })();
+                img.src = e.target.result;
+            };
+        })();
+        reader.readAsDataURL(e.target.files[i]);    
     }
-    reader.readAsDataURL(e.target.files[0]); 
 }
 
-document.getElementById('up').addEventListener('click', function() {
-	if (imgRot==0) imgY -= 10;
-	if (imgRot==90 || imgRot==-270) imgX -= 10;
-	if (imgRot==180 || imgRot==-180) imgY += 10;
-	if (imgRot==270 || imgRot==-90) imgX += 10;
-	redraw();
-});
-document.getElementById('down').addEventListener('click', function() {
-	if (imgRot==0) imgY += 10;
-	if (imgRot==90 || imgRot==-270) imgX += 10;
-	if (imgRot==180 || imgRot==-180) imgY -= 10;
-	if (imgRot==270 || imgRot==-90) imgX -= 10;
-	redraw();
-});
-document.getElementById('left').addEventListener('click', function() {
-	if (imgRot==0) imgX -= 10;
-	if (imgRot==90 || imgRot==-270) imgY += 10;
-	if (imgRot==180 || imgRot==-180) imgX += 10;
-	if (imgRot==270 || imgRot==-90) imgY -= 10;
-	redraw();
-});
-document.getElementById('right').addEventListener('click', function() {
-	if (imgRot==0) imgX += 10;
-	if (imgRot==90 || imgRot==-270) imgY -= 10;
-	if (imgRot==180 || imgRot==-180) imgX -= 10;
-	if (imgRot==270 || imgRot==-90) imgY += 10;
-	redraw();
-});
-document.getElementById('rot-r').addEventListener('click', function() {
-	imgRot = imgRot==270 ? 0 : imgRot+=90;
-	redraw();
-});
-document.getElementById('rot-l').addEventListener('click', function() {
-	imgRot = imgRot==-270 ? 0 : imgRot-=90;
-	redraw();
-});
-document.getElementById('bigger').addEventListener('click', function() {
-	r += 10;
-	redraw();
-});
-document.getElementById('smaller').addEventListener('click', function() {
-	r -= 10;
-	redraw();
-});
+var mouse = {
+    dragStarted: false,
+    x: null,
+    y: null,
+    getNewCoords: function(e) {
+        return {
+            x: e.clientX,
+            y: e.clientY
+        };
+    },
+    updateCoords: function(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+};
 
-function redraw() {
-	canvas.width = 600;
-	ctx.save();
-	ctx.translate(300, 300);
-	ctx.rotate(imgRot*Math.PI/180);
-    ctx.drawImage(img, -300+imgX, -300+imgY, r, img.height*r/img.width);
-    ctx.restore();
-	ctx.drawImage(frame, 0, 0, 600, 600); 
-	done = 0;
+function startDrag(e) {
+    mouse.dragStarted = true;
+    coords = mouse.getNewCoords(e);
+    mouse.updateCoords(coords.x, coords.y);
 }
 
-done = 0;
-var button = document.getElementById('btn-download');
-button.addEventListener('click', function(e) {
-	if(!done) {
-		Caman("#img", function () {
-			this.saturation(0);
-			this.sepia(50).render();
-		});
-	}
-	if (done==2) {
-		var dataURL = canvas.toDataURL('image/png');
-	    button.href = dataURL;
-	    button.download = "profile.png";
-	}
-});
+function endDrag(e) {
+    mouse.dragStarted = false;
+}
 
-Caman.Event.listen("processComplete", function(job) {
-	done++;
-	if (done==2) {
-		setTimeout(function() {
-			button.click();
-		}, 500);	
-	}
-});
+function dragImage(e) {
+    if (mouse.dragStarted) {     
+        newCoords = mouse.getNewCoords(e);
+        canvasPic.move(newCoords.x-mouse.x, newCoords.y-mouse.y);
+        mouse.updateCoords(newCoords.x, newCoords.y);
+    }
+    canvasPic.draw();
+}
+
+function scale(e) {
+    canvasPic.imgScl = e.target.value;
+    canvasPic.draw();
+}
+
+function rotate(direction) {
+    canvasPic.imgRot += 90*direction;
+    canvasPic.imgRot %= 360;
+    canvasPic.draw();
+}
+
+function rotateClockwise() {
+    rotate(1);
+}
+
+function rotateCounterClockwise() {
+    rotate(-1);
+}
