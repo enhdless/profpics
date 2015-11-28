@@ -86,6 +86,7 @@ function init() {
             }
         }
     };
+    canvasPic.draw();
 }
 
 function generate() {
