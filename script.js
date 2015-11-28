@@ -1,4 +1,4 @@
-/*window.fbAsyncInit = function() {
+window.fbAsyncInit = function() {
     FB.init({
         appId: '995558610511572',
         xfbml: true,
@@ -13,7 +13,7 @@
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));*/
+}(document, 'script', 'facebook-jssdk'));
 
 var SIDE_LENGTH = 650;
 
@@ -65,7 +65,7 @@ function init() {
             this.context.rotate(this.imgRot*Math.PI/180);
             this.context.drawImage(this.img, -SIDE_LENGTH/2+this.imgX, -SIDE_LENGTH/2+this.imgY, this.width(), this.height());
             this.context.restore();
-            this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
+            // this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
         },
         move: function(deltaX, deltaY) {
             if (this.imgRot==0) {
@@ -90,29 +90,30 @@ function init() {
 }
 
 function generate() {
-    /*var imgData = canvasPic.node.toDataURL('image/png').split('base64,')[1];
-    var data = 'Content-Type: multipart/form-data; boundary=asdf\r\n\r\n';
-    data += '--asdf\r\n';
-    data += 'Content-Disposition: form-data; filename="profile.png"\r\n';
-    data += 'Content-Type: image/png\r\n';
-    data += 'Content-Transfer-Encoding: base64\r\n\r\n';
-    data += imgData + '\r\n';
-    data += '--asdf--';
+    var blob = dataURItoBlob(canvasPic.node.toDataURL('image/png'));
+    FB.login(function(response) {
+        var access_token = response.authResponse.accessToken;
+        var data = new FormData();
+        data.append('access_token', access_token);
+        data.append('source', blob);
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            var pid = JSON.parse(this.response).id;
+            window.open('https://www.facebook.com/photo.php?fbid=' + pid + '&makeprofile=1&makeuserprofile=1', '_blank');
+        }
+        xhr.open('POST', 'https://graph.facebook.com/me/photos?access_token='+access_token);
+        xhr.send(data);
+    }, {scope: 'user_photos,publish_actions'});
+}
 
-    console.log(data);
-
-    FB.login(function(){
-        FB.api('/me/photos', 'POST', {
-            'source': data,
-        },
-        function (response) {
-            console.log(response);
-        });
-    }, {scope: 'user_photos,publish_actions'});*/
-    // var imgData = canvasPic.node
-// .    console.log()
-	createBtn.href = canvasPic.node.toDataURL('image/png');
-	createBtn.download = "profile.png";
+function dataURItoBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/png' });
 }
 
 function handleImages(e) {
