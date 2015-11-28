@@ -1,3 +1,20 @@
+/*window.fbAsyncInit = function() {
+    FB.init({
+        appId: '995558610511572',
+        xfbml: true,
+        version: 'v2.5',
+        'fileUpload': true
+    });
+};
+
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));*/
+
 var SIDE_LENGTH = 650;
 
 var canvasNode = document.getElementById('canvas');
@@ -23,7 +40,7 @@ bg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEA
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
 overlay.onload = init;
-overlay.src = 'DisneyFrame.png';    
+overlay.src = 'wf.png';    
 
 function init() {
     canvasPic = {
@@ -72,6 +89,27 @@ function init() {
 }
 
 function generate() {
+    /*var imgData = canvasPic.node.toDataURL('image/png').split('base64,')[1];
+    var data = 'Content-Type: multipart/form-data; boundary=asdf\r\n\r\n';
+    data += '--asdf\r\n';
+    data += 'Content-Disposition: form-data; filename="profile.png"\r\n';
+    data += 'Content-Type: image/png\r\n';
+    data += 'Content-Transfer-Encoding: base64\r\n\r\n';
+    data += imgData + '\r\n';
+    data += '--asdf--';
+
+    console.log(data);
+
+    FB.login(function(){
+        FB.api('/me/photos', 'POST', {
+            'source': data,
+        },
+        function (response) {
+            console.log(response);
+        });
+    }, {scope: 'user_photos,publish_actions'});*/
+    // var imgData = canvasPic.node
+// .    console.log()
 	createBtn.href = canvasPic.node.toDataURL('image/png');
 	createBtn.download = "profile.png";
 }

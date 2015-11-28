@@ -54,3 +54,6 @@ button:disabled {
 #btn-download:hover {
 	background: rgb(71, 192, 71);
 }
+canvas {
+	cursor: move;
+}
