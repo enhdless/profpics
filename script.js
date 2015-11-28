@@ -26,7 +26,8 @@ canvasNode.addEventListener('mouseup', endDrag);
 
 var createBtn = document.getElementById('btn-download');
 createBtn.addEventListener('click', generate);
-document.getElementById('imageLoader').addEventListener('change', handleImages, false);
+document.getElementById('imageLoader').addEventListener('change', handleImage, false);
+document.getElementById('btn-getCurrent').addEventListener('click', getFBProfPic);
 
 document.getElementById('scale').addEventListener('mousemove', scale);
 document.getElementById('rot-r').addEventListener('click', rotateClockwise);
@@ -65,7 +66,7 @@ function init() {
             this.context.rotate(this.imgRot*Math.PI/180);
             this.context.drawImage(this.img, -SIDE_LENGTH/2+this.imgX, -SIDE_LENGTH/2+this.imgY, this.width(), this.height());
             this.context.restore();
-            // this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
+            this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
         },
         move: function(deltaX, deltaY) {
             if (this.imgRot==0) {
@@ -87,6 +88,22 @@ function init() {
         }
     };
     canvasPic.draw();
+}
+
+function getFBProfPic() {
+    FB.login(function(response) {
+        FB.api('me/picture?redirect=1&width='+SIDE_LENGTH, function(response) {
+            var img = new Image();
+            img.setAttribute('crossOrigin', 'anonymous');
+            img.onload = (function() {
+                return function() {
+                    canvasPic.img = this;
+                    canvasPic.draw();
+                }
+            })();
+            img.src = response.data.url;
+        });
+    });
 }
 
 function generate() {
@@ -132,27 +149,29 @@ function dataURItoBlob(dataURI) {
     for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
-    return new Blob([ab], { type: 'image/png' });
+    return new Blob([ab], {type: 'image/png'});
 }
 
-function handleImages(e) {
-    for (var i=0; i<e.target.files.length; i++) {
-        var reader = new FileReader();
-        reader.onload = (function() {
-            return function(e) {
-                var img = new Image();
-                img.setAttribute('crossOrigin', 'anonymous');
-                img.onload = (function() {
-                    return function() {
-                        canvasPic.img = this;
-                        canvasPic.draw();
-                    }
-                })();
-                img.src = e.target.result;
-            };
-        })();
-        reader.readAsDataURL(e.target.files[i]);    
-    }
+function handleImage(e) {
+    loadImage(e.target.files[0]);    
+}
+
+function loadImage(file) {
+    var reader = new FileReader();
+    reader.onload = (function() {
+        return function(e) {
+            var img = new Image();
+            img.setAttribute('crossOrigin', 'anonymous');
+            img.onload = (function() {
+                return function() {
+                    canvasPic.img = this;
+                    canvasPic.draw();
+                }
+            })();
+            img.src = e.target.result;
+        };
+    })();
+    reader.readAsDataURL(file);
 }
 
 var mouse = {
