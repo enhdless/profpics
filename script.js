@@ -92,6 +92,7 @@ function init() {
 function generate() {
     var blob = dataURItoBlob(canvasPic.node.toDataURL('image/png'));
     FB.login(function(response) {
+        var aid;
         var access_token = response.authResponse.accessToken;
         var data = new FormData();
         data.append('access_token', access_token);
@@ -101,8 +102,26 @@ function generate() {
             var pid = JSON.parse(this.response).id;
             window.open('https://www.facebook.com/photo.php?fbid=' + pid + '&makeprofile=1&makeuserprofile=1', '_blank');
         }
-        xhr.open('POST', 'https://graph.facebook.com/me/photos?access_token='+access_token);
-        xhr.send(data);
+        
+        FB.api('me/albums', function(response) {
+            var albums = response.data;
+            for (var i=0; i<albums.length; i++) {
+                if (albums[i].name == "Custom Profile Pictures") {
+                    aid = albums[i].id;
+                    xhr.open('POST', 'https://graph.facebook.com/'+aid+'/photos?access_token='+access_token);
+                    xhr.send(data);
+                }
+            }
+            if (!aid) {
+                FB.api('me/albums', 'POST', 
+                    {'name': 'Custom Profile Pictures'}, function(response) {
+                    aid = response.id;
+                    xhr.open('POST', 'https://graph.facebook.com/'+aid+'/photos?access_token='+access_token);
+                    xhr.send(data);
+                });
+            }
+        });
+
     }, {scope: 'user_photos,publish_actions'});
 }
 
