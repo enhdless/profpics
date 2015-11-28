@@ -24,8 +24,9 @@ canvasNode.addEventListener('mousedown', startDrag);
 canvasNode.addEventListener('mousemove', dragImage);
 canvasNode.addEventListener('mouseup', endDrag);
 
-var createBtn = document.getElementById('btn-download');
-createBtn.addEventListener('click', generate);
+var downloadBtn = document.getElementById('btn-download');
+downloadBtn.addEventListener('click', download);
+document.getElementById('btn-update').addEventListener('click', uploadToFacebook);
 document.getElementById('imageLoader').addEventListener('change', handleImage, false);
 document.getElementById('btn-getCurrent').addEventListener('click', getFBProfPic);
 
@@ -90,6 +91,11 @@ function init() {
     canvasPic.draw();
 }
 
+function download() {
+    downloadBtn.href = canvasPic.node.toDataURL('image/png');
+    downloadBtn.download = 'profile.png';
+}
+
 function getFBProfPic() {
     FB.login(function(response) {
         FB.api('me/picture?redirect=1&width='+SIDE_LENGTH, function(response) {
@@ -106,7 +112,7 @@ function getFBProfPic() {
     });
 }
 
-function generate() {
+function uploadToFacebook() {
     var blob = dataURItoBlob(canvasPic.node.toDataURL('image/png'));
     FB.login(function(response) {
         var aid;

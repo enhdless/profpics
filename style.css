@@ -46,10 +46,17 @@ button:disabled {
 .btn:hover {
 	background: #2d72ff;
 }
+.btn-fb, input.btn-fb {
+	display: block;
+	background: #3B5998;
+}
+.btn-fb:hover, input.btn-fb:hover {
+	background: #446EC5;
+}
 #btn-download {
 	display: block;
 	background: forestgreen;
-	padding: 10px;
+	/*padding: 10px;*/
 }
 #btn-download:hover {
 	background: rgb(71, 192, 71);
