@@ -25,6 +25,9 @@ h1 {
 h3 {
 	border-bottom: 1px solid #888;
 }
+input[type="file"] {
+	display: none;
+}
 button:disabled {
 	opacity: 0.5;
 	cursor: default;
@@ -32,7 +35,7 @@ button:disabled {
 .btn:disabled:hover {
 	background: #0F53DD;
 }
-.btn, input[type="button"], ::-webkit-file-upload-button {
+.btn, input[type="button"] {
 	display: inline-block;
 	background: #0F53DD;
 	padding: 7px 8px;
@@ -43,7 +46,7 @@ button:disabled {
 	text-align: center;
 	cursor: pointer;
 }
-.btn:hover, ::-webkit-file-upload-button:hover {
+.btn:hover {
 	background: #2d72ff;
 }
 .btn-fb, input.btn-fb {
