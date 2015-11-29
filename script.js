@@ -120,6 +120,7 @@ function uploadToFacebook() {
         var data = new FormData();
         data.append('access_token', access_token);
         data.append('source', blob);
+        data.append('no_story', true);
         var xhr = new XMLHttpRequest();
         xhr.onload = function() {
             var pid = JSON.parse(this.response).id;
