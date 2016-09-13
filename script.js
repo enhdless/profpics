@@ -38,11 +38,11 @@ var canvasPic;
 
 var bg = new Image();
 bg.setAttribute('crossOrigin', 'anonymous');
-bg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
+bg.src = 'default.png';
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
+overlay.src = 'fbla2016.png';    
 overlay.onload = init;
-overlay.src = 'wf.png';    
 
 function init() {
     canvasPic = {
@@ -53,42 +53,41 @@ function init() {
         imgY: 0,
         imgScl: 1.0,
         width: function() {
-            return SIDE_LENGTH*this.imgScl;
+            return SIDE_LENGTH * this.imgScl;
         },
         height: function() {
-            return (this.img.height/this.img.width)*SIDE_LENGTH*this.imgScl;
+            return (this.img.height / this.img.width) * SIDE_LENGTH * this.imgScl;
         },
         imgRot: 0,
         draw: function() {
             this.context.clearRect(0, 0, SIDE_LENGTH, SIDE_LENGTH);
-            this.context.drawImage(bg, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
+            // this.context.drawImage(bg, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
             this.context.save();
-            this.context.translate(SIDE_LENGTH/2, SIDE_LENGTH/2);
-            this.context.rotate(this.imgRot*Math.PI/180);
-            this.context.drawImage(this.img, -SIDE_LENGTH/2+this.imgX, -SIDE_LENGTH/2+this.imgY, this.width(), this.height());
+            this.context.translate(SIDE_LENGTH / 2, SIDE_LENGTH / 2);
+            this.context.rotate(this.imgRot * Math.PI / 180);
+            this.context.drawImage(this.img, -SIDE_LENGTH / 2 + this.imgX, -SIDE_LENGTH / 2 + this.imgY, this.width(), this.height());
             this.context.restore();
             this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
         },
         move: function(deltaX, deltaY) {
-            if (this.imgRot==0) {
+            if (this.imgRot == 0) {
                 this.imgX += deltaX;
                 this.imgY += deltaY;
             }
-            if (this.imgRot==90 || this.imgRot==-270) {
+            if (this.imgRot == 90 || this.imgRot == -270) {
                 this.imgX += deltaY;
                 this.imgY -= deltaX;
             }
-            if (this.imgRot==180 || this.imgRot==-180) {
+            if (this.imgRot == 180 || this.imgRot == -180) {
                 this.imgX -= deltaX;
                 this.imgY -= deltaY;
             }
-            if (this.imgRot==270 || this.imgRot==-90) {
+            if (this.imgRot == 270 || this.imgRot == -90) {
                 this.imgX -= deltaY;
                 this.imgY += deltaX;
             }
         }
     };
-    canvasPic.draw();
 }
 
 function download() {
@@ -98,7 +97,7 @@ function download() {
 
 function getFBProfPic() {
     FB.login(function(response) {
-        FB.api('me/picture?redirect=1&width='+SIDE_LENGTH, function(response) {
+        FB.api('me/picture?redirect=1&width=' + SIDE_LENGTH, function(response) {
             var img = new Image();
             img.setAttribute('crossOrigin', 'anonymous');
             img.onload = (function() {
@@ -129,10 +128,10 @@ function uploadToFacebook() {
         
         FB.api('me/albums', function(response) {
             var albums = response.data;
-            for (var i=0; i<albums.length; i++) {
+            for (var i = 0; i < albums.length; i++) {
                 if (albums[i].name == "Custom Profile Pictures") {
                     aid = albums[i].id;
-                    xhr.open('POST', 'https://graph.facebook.com/'+aid+'/photos?access_token='+access_token);
+                    xhr.open('POST', 'https://graph.facebook.com/' + aid + '/photos?access_token=' + access_token);
                     xhr.send(data);
                 }
             }
@@ -140,7 +139,7 @@ function uploadToFacebook() {
                 FB.api('me/albums', 'POST', 
                     {'name': 'Custom Profile Pictures'}, function(response) {
                     aid = response.id;
-                    xhr.open('POST', 'https://graph.facebook.com/'+aid+'/photos?access_token='+access_token);
+                    xhr.open('POST', 'https://graph.facebook.com/' + aid + '/photos?access_token=' + access_token);
                     xhr.send(data);
                 });
             }
@@ -210,7 +209,7 @@ function endDrag(e) {
 function dragImage(e) {
     if (mouse.dragStarted) {     
         newCoords = mouse.getNewCoords(e);
-        canvasPic.move(newCoords.x-mouse.x, newCoords.y-mouse.y);
+        canvasPic.move(newCoords.x - mouse.x, newCoords.y - mouse.y);
         mouse.updateCoords(newCoords.x, newCoords.y);
     }
     canvasPic.draw();
@@ -222,7 +221,7 @@ function scale(e) {
 }
 
 function rotate(direction) {
-    canvasPic.imgRot += 90*direction;
+    canvasPic.imgRot += 90 * direction;
     canvasPic.imgRot %= 360;
     canvasPic.draw();
 }
