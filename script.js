@@ -41,7 +41,7 @@ bg.setAttribute('crossOrigin', 'anonymous');
 bg.src = 'default.png';
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
-overlay.src = 'juniors.png';    
+overlay.src = '2017.png';    
 overlay.onload = init;
 
 function init() {
@@ -67,6 +67,7 @@ function init() {
             this.context.rotate(this.imgRot * Math.PI / 180);
             this.context.drawImage(this.img, -SIDE_LENGTH / 2 + this.imgX, -SIDE_LENGTH / 2 + this.imgY, this.width(), this.height());
             this.context.restore();
+            this.context.putImageData(grayscaleImageData(this.context, this.node), 0, 0);
             this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
         },
         move: function(deltaX, deltaY) {
@@ -90,7 +91,24 @@ function init() {
     };
 }
 
+// Function from http://www.htmlgoodies.com/html5/javascript/display-images-in-black-and-white-using-the-html5-canvas.html
+function grayscaleImageData(context, canvas) {
+    console.log(canvas);
+    var imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var pixels  = imgData.data;
+    for (var i = 0, n = pixels.length; i < n; i += 4) {
+        var grayscale = pixels[i] * .3 + pixels[i+1] * .59 + pixels[i+2] * .11;
+        pixels[i] = grayscale;        // red
+        pixels[i+1] = grayscale;        // green
+        pixels[i+2] = grayscale;        // blue
+        //pixels[i+3]              is alpha
+    }
+    //redraw the image in black & white
+    return imgData;
+}
+
 function download() {
+
     downloadBtn.href = canvasPic.node.toDataURL('image/png');
     downloadBtn.download = 'profile.png';
 }
