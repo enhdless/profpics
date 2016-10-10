@@ -1,0 +1,58 @@
+<!doctype>
+<html>
+
+<head>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="style.css" rel="stylesheet">
+	<title>Junior Profile Pictures</title>
+</head>
+
+<body>
+
+<h1>Junior Profile Pictures</h1>
+
+<div class="container">
+
+	<div class="main">
+		<canvas id="canvas" width="700" height="700"></canvas>
+	</div>
+
+	<div class="side">
+		<h3><i class="fa fa-upload fa-fw"></i> Upload</h3>
+        <label for="imageLoader" class="btn"><i class="fa fa-photo fa-fw"></i> Upload Picture</label>
+	    <input type="file" id="imageLoader" name="imageLoader">
+	    <!-- <br><strong>or</strong>
+	            <input type="button" id="btn-getCurrent" class="btn btn-fb" value="Use Current Facebook Profile Picture"> -->
+
+		<br>
+
+        <h3><i class="fa fa-edit fa-fw"></i> Edit</h3>
+        Drag image to reposition.<br>
+        Size: 
+		<i class="fa fa-minus fa-fw"></i>
+        <input type="range" id="scale" min="0.2" max="2.0" step="0.005">
+        <i class="fa fa-plus fa-fw"></i>
+        <br>
+        Rotation:
+        <button class="btn edit" id="rot-l"><i class="fa fa-rotate-left fa-fw"></i></button>
+        <button class="btn edit" id="rot-r"><i class="fa fa-rotate-right fa-fw"></i></button>
+		<br><br>
+
+		<h3><i class="fa fa-check-circle fa-fw"></i> Done?</h3>
+		<!-- <a href="#" class="btn btn-fb" id="btn-update"><i class="fa fa-facebook fa-fw"></i> Upload to Facebook</a>
+		        <strong>or</strong> -->
+        <a href="#" class="btn" id="btn-download"><i class="fa fa-download fa-fw"></i> Download</a>
+		<br><br>
+
+		<small>Something weird happen?<br><a href="mailto:dongheidi@gmail.com" target="_blank">Let me know</a> & <a href="/profpics">refresh</a>.</small>
+
+	</div>
+
+</div>
+
+<script src="juniors.js"></script>
+
+</body>
+
+</html>

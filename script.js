@@ -1,4 +1,4 @@
-window.fbAsyncInit = function() {
+/*window.fbAsyncInit = function() {
     FB.init({
         appId: '995558610511572',
         xfbml: true,
@@ -13,7 +13,7 @@ window.fbAsyncInit = function() {
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+}(document, 'script', 'facebook-jssdk'));*/
 
 var SIDE_LENGTH = 650;
 
@@ -26,9 +26,9 @@ canvasNode.addEventListener('mouseup', endDrag);
 
 var downloadBtn = document.getElementById('btn-download');
 downloadBtn.addEventListener('click', download);
-document.getElementById('btn-update').addEventListener('click', uploadToFacebook);
+// document.getElementById('btn-update').addEventListener('click', uploadToFacebook);
 document.getElementById('imageLoader').addEventListener('change', handleImage, false);
-document.getElementById('btn-getCurrent').addEventListener('click', getFBProfPic);
+// document.getElementById('btn-getCurrent').addEventListener('click', getFBProfPic);
 
 document.getElementById('scale').addEventListener('mousemove', scale);
 document.getElementById('rot-r').addEventListener('click', rotateClockwise);
@@ -41,7 +41,7 @@ bg.setAttribute('crossOrigin', 'anonymous');
 bg.src = 'default.png';
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
-overlay.src = 'fbla2016.png';    
+overlay.src = 'juniors.png';    
 overlay.onload = init;
 
 function init() {
@@ -95,7 +95,7 @@ function download() {
     downloadBtn.download = 'profile.png';
 }
 
-function getFBProfPic() {
+/*function getFBProfPic() {
     FB.login(function(response) {
         FB.api('me/picture?redirect=1&width=' + SIDE_LENGTH, function(response) {
             var img = new Image();
@@ -146,7 +146,7 @@ function uploadToFacebook() {
         });
 
     }, {scope: 'user_photos,publish_actions'});
-}
+}*/
 
 function dataURItoBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
