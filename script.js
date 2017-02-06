@@ -41,7 +41,7 @@ bg.setAttribute('crossOrigin', 'anonymous');
 bg.src = 'default.png';
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
-overlay.src = '2017.png';    
+overlay.src = 'fbla-pbl (1) (1).png';    
 overlay.onload = init;
 
 function init() {
@@ -67,7 +67,7 @@ function init() {
             this.context.rotate(this.imgRot * Math.PI / 180);
             this.context.drawImage(this.img, -SIDE_LENGTH / 2 + this.imgX, -SIDE_LENGTH / 2 + this.imgY, this.width(), this.height());
             this.context.restore();
-            this.context.putImageData(grayscaleImageData(this.context, this.node), 0, 0);
+            // this.context.putImageData(grayscaleImageData(this.context, this.node), 0, 0);
             this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
         },
         move: function(deltaX, deltaY) {
@@ -108,7 +108,6 @@ function grayscaleImageData(context, canvas) {
 }
 
 function download() {
-
     downloadBtn.href = canvasPic.node.toDataURL('image/png');
     downloadBtn.download = 'profile.png';
 }
