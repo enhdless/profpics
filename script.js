@@ -15,7 +15,7 @@
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));*/
 
-var SIDE_LENGTH = 650;
+var SIDE_LENGTH = 750;
 
 var canvasNode = document.getElementById('canvas');
 canvasNode.width = SIDE_LENGTH;
@@ -41,7 +41,7 @@ bg.setAttribute('crossOrigin', 'anonymous');
 bg.src = 'default.png';
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
-overlay.src = 'fbla-pbl (1) (1).png';    
+overlay.src = 'hshacks.png';    
 overlay.onload = init;
 
 function init() {
@@ -89,6 +89,7 @@ function init() {
             }
         }
     };
+    canvasPic.draw();
 }
 
 // Function from http://www.htmlgoodies.com/html5/javascript/display-images-in-black-and-white-using-the-html5-canvas.html
